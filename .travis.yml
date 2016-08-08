@@ -1,0 +1,61 @@
+sudo: required
+dist: trusty
+language: ruby
+
+before_install:
+before_install:
+- gem install asciidoctor -v 1.5.2
+- gem install tilt
+- sudo pip install git+https://github.com/gitenberg-dev/gitberg
+- sudo pip install pillow
+- sudo pip install cssutils
+- sudo pip install docutils
+- sudo pip install roman
+- sudo pip install git+https://github.com/gitenberg-dev/pg-epubmaker
+script:
+- VERSION=`ruby -e "require 'yaml'; meta = YAML.load_file('metadata.yaml'); puts meta['_version'];"`
+- git clone https://github.com/gitenberg-dev/asciidoctor-htmlbook.git
+- sudo pip install -r asciidoctor-htmlbook/gitberg-machine/requirements.txt
+
+- /usr/bin/python -c "from gitenberg import travis; travis.build_epub()"
+- ebook-convert book.epub book.mobi
+- xvfb-run ebook-convert book.epub book.pdf
+branches:
+  only:
+  - master
+notifications:
+  webhooks:
+    urls:
+      - https://unglue.it/api/travisci/webhook
+    on_success: always
+    on_failure: never
+    on_start: never
+deploy:
+  skip_cleanup: true
+  provider: releases
+  api_key:
+    secure: ltUFMdMGBpKv/gEsdQ1L1X7N3Pzwl1by84GuISP1YXsZX9r3k/w1ckInt6tPEh9w/R1oxCgwpDMeV11ZMP58TiV9tVwZVY+p7jxZDKs7LpcdaQDv1WCPyvBgi6YSuzYLW/C5DGyUza2UOitifpmEOqIh87VfJUu+xrkDUbAcrbIugNz0ucbPmJ1GHSTAfEv931Lr5Pb2WBAEPFJME+sJZZ1eAqhpPrnMLZS7uIStpm6IOEidrUA2XKCI3TNMZM56gJr5uXB0i35YlDu3iwUcMwxDBFWSOFnK+L3qatsNeyLbrpsPDv0ZKPpNMNpnM3kp5narncDPROX43kowjU+6aidp8oV50dI/fUk7tJrjtdTlipeZCHzyKSJQuxiRDM/DySn0zYfQwtprH1E4kYVU2NQXmZKdIQZCoywj37ea5nsooEZVd+F5CXjzDC0QDcdtVG8M49LNdnNvz1LiCp2055AF2sjIpdcUqnIKbh1VnW/ucKdMynRw2UmkD+stjV45+lagWR3/2K444mh5yW8Jv94yA6WQoJbaEhHZpowQ7iYkrDluKvQsio5m/QjbcOkJGxSeK+yQqd3Xq20x0ZPSeA1skbqj2a0uk3ghrNV4K7dQ2aH5x19e0HiPww2G4TxtSlTyK6zNMayO0HGtLmd7/mrb1uzL3uTL2zti1PkSL0Q=
+  file:
+    - book.epub
+    - book.mobi
+    - book.pdf
+  "on":
+    repo: GITenberg/Who-Was-Who--5000-B.-C.-to-Date--13-Biographical-Dictionary-of-the-Famous-and-Those-Who-Wanted-__984
+addons:
+  apt:
+    packages:
+    - xsltproc
+    - xvfb
+    - calibre
+    - python-pip
+    - git
+    - python-dev
+    - libjpeg-dev
+    - libpng-dev
+    - libfreetype6
+    - libfreetype6-dev
+    - zlib1g-dev
+    - python-lxml
+    - libxml2-dev
+    - libxslt1-dev
+    - tidy
