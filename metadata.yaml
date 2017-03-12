@@ -1,5 +1,8 @@
 _repo: Who-Was-Who--5000-B.-C.-to-Date--13-Biographical-Dictionary-of-the-Famous-and-Those-Who-Wanted-__984
-_version: 0.1.0
+_version: 0.2.0
+covers:
+- cover_type: generated
+  image_path: cover.png
 creator:
   editor:
     agent_name: Gordon, Irwin Leslie
@@ -7,6 +10,8 @@ creator:
     gutenberg_agent_id: '499'
     url: http://www.gutenberg.org/2009/agents/499
 description: ''
+edition_identifiers:
+  edition_id: http://www.gutenberg.org/ebooks/984#Who-Was-Who--5000-B.-C.-to-Date--13-Biographical-Dictionary-of-the-Famous-and-Those-Who-Wanted-_
 gutenberg_bookshelf: Biographies
 gutenberg_issued: '1997-07-01'
 gutenberg_type: Text
